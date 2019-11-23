@@ -1,0 +1,48 @@
+.collection-page-wrapper {
+  height: 87vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.collection_wrapper {
+  background-color: white;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.collection_wrapper select {
+  background: lightgray;
+  margin: 34px;
+  height: 40px;
+  width: 150px;
+  font-size: 16px;
+  outline: none;
+  border-radius: 20px;
+  border: 2px black solid;
+  text-indent: 5px;
+  cursor: pointer;
+}
+
+.collection_wrapper .instruction-text {
+  font-size: 30px;
+  color: black;
+  width: 600px;
+  min-height: 80px;
+  text-align: center;
+  margin: 0;
+  padding-top: 20px;
+}
+
+.collection_wrapper .fretboard-container .string-container .fret-display-container button{
+  cursor: default;
+}
+
+.delete-button-container {
+  min-height: 60px;
+  margin: 20px;
+  padding: 0;
+}

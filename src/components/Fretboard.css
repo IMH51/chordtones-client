@@ -1,0 +1,33 @@
+.fretboard-container {
+  display: inline-block;
+  padding-right: 50px;
+}
+
+.fretboard-number-labels {
+  padding-left: 5px;
+  display: flex;
+  max-height: 20px;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.fretboard-number-labels .marker-label {
+  width: 22px;
+  height: 22px;
+  background: lightgray;
+  border-radius: 50%;
+  font-size: 15px;
+  opacity: 0.7;
+  color: black;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 4px;
+  cursor: default;
+}
+
+.fretboard-number-labels .non-marker-label {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+}

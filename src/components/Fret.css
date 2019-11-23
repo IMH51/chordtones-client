@@ -1,0 +1,102 @@
+.fretboard-container {
+  height: 180px;
+  position: relative;
+}
+
+.fret-container {
+  overflow: auto;
+  background: #000;
+  height: 30px;
+  width: 30px;
+  position: relative;
+  cursor: pointer;
+}
+
+.fret-display-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 30px;
+  width: 29px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.string-container:first-child .fret-container {
+  background: linear-gradient(to top, #000 0%, #000 50%, #fff 50%);
+}
+
+.string-container:last-child .fret-container {
+  background: linear-gradient(to bottom, #000 0%, #000 50%, #fff 50%);
+}
+
+.string-container:first-child .fret-container:first-child {
+  background: linear-gradient(to top, #000 0%, #000 53.5%, #fff 53.5%);
+}
+
+.string-container:last-child .fret-container:first-child {
+  background: linear-gradient(to bottom, #000 0%, #000 53.5%, #fff 53.5%);
+}
+
+.fret-container:first-child:after {
+  border-bottom: none;
+}
+
+.fret-container:first-child .fret-display-container {
+  width: 22px;
+}
+
+.fret-button-white {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  z-index: 10;
+  outline: none;
+  border: none;
+  position: relative;
+  float: left;
+  color: white
+}
+
+.fret-button-black {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  z-index: 10;
+  background-color: black;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  position: relative;
+  float: left;
+  color: white
+}
+
+.fret-container:after {
+  position: absolute;
+  content: '';
+  display: block;
+  border-bottom: 2px solid black;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.string-container .fret-container:first-child .fret-display-container .fret-button-white {
+  background-repeat: no-repeat;
+  width: 10px;
+  height: 10px;
+}
+
+.string-container .fret-container:first-child .fret-display-container .fret-button-black {
+  background-color: grey;
+  width: 15px;
+  height: 15px;
+  opacity: 0.25;
+  margin-right: 5px;
+}
