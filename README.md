@@ -8,3 +8,5 @@ Users can find out chord names and finger positions for guitar chords and add th
 Click [here](https://chordtones.herokuapp.com/) to try it out.
 
 Screenshot:
+
+![screenshot](chordtones-screenshot.jpg)
