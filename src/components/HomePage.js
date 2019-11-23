@@ -20,7 +20,7 @@ class HomePage extends Component {
 
   onClickLogin = event => {
   event.preventDefault()
-  fetch('http://localhost:3000/login', {
+  fetch('https://chordtones-backend.herokuapp.com/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ class HomePage extends Component {
     if (!this.state.username || !this.state.password) {
       alert('Username and Password fields must both be filled in.')
     } else {
-      fetch('http://localhost:3000/signup', {
+      fetch('https://chordtones-backend.herokuapp.com/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

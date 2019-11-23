@@ -52,7 +52,7 @@ class App extends Component {
 }
 
   getChordName = () => {
-    fetch('http://localhost:3000/chord', {
+    fetch('https://chordtones-backend.herokuapp.com/chord', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",

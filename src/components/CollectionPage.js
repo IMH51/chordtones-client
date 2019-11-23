@@ -16,7 +16,7 @@ class CollectionPage extends Component {
   }
 
   getUserChords = () => {
-    return fetch('http://localhost:3000/user/chords', {
+    return fetch('https://chordtones-backend.herokuapp.com/chords', {
         headers: { 'Content-Type': 'application/json',
                     'Authorization': localStorage.getItem('token')},
       })
@@ -35,7 +35,7 @@ class CollectionPage extends Component {
   }
 
   handleChordDelete = (chord_id) => {
-    return fetch(`http://localhost:3000/chords/${chord_id}`, {
+    return fetch(`https://chordtones-backend.herokuapp.com/${chord_id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
