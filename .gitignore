@@ -4,32 +4,6 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-# Rails backend gitignore #
-#-------------------------#
-
-# Ignore bundler config.
-/chordtones-backend/.bundle
-
-# Ignore all logfiles and tempfiles.
-/chordtones-backend/log/*
-/chordtones-backend/tmp/*
-/chordtones-backend/log/.keep
-/chordtones-backend/tmp/.keep
-
-# Ignore uploaded files in development
-/chordtones-backend/storage/*
-/chordtones-backend/storage/.keep
-
-.byebug_history
-
-# Ignore master key for decrypting credentials and more.
-/chordtones-backend/config/master.key
-/chordtones-backend/.env
-
-
-# React frontend gitignore #
-#--------------------------#
-
 # dependencies
 /node_modules
 /.pnp
