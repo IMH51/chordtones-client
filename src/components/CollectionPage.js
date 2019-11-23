@@ -35,7 +35,7 @@ class CollectionPage extends Component {
   }
 
   handleChordDelete = (chord_id) => {
-    return fetch(`https://chordtones-backend.herokuapp.com/${chord_id}`, {
+    return fetch(`https://chordtones-backend.herokuapp.com/chords/${chord_id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
