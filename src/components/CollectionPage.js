@@ -16,7 +16,7 @@ class CollectionPage extends Component {
   }
 
   getUserChords = () => {
-    return fetch('https://chordtones-backend.herokuapp.com/chords', {
+    return fetch('https://chordtones-backend.herokuapp.com/user/chords', {
         headers: { 'Content-Type': 'application/json',
                     'Authorization': localStorage.getItem('token')},
       })
