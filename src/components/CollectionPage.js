@@ -39,11 +39,7 @@ const CollectionPage = ({ username, logout, clearFretboard, history}) => {
   const onClickDelete = () => handleChordDelete(selectedChord.id)
 
   useEffect(() => {
-      if (!username) {
-        history.push('/')
-      } else {
-        getUserChords()
-      }
+      username ? getUserChords() : history.push('/')
     }, [])
 
   return (

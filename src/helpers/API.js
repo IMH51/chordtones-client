@@ -19,7 +19,8 @@ class Api {
   get = url => {
     return fetch(url, {
       headers: this.headers()
-    }).then(this.responseToJSON)
+    })
+    .then(this.responseToJSON)
   }
 
   post = (url, data) => {
@@ -27,16 +28,19 @@ class Api {
         method: 'POST',
         headers: this.headers(),
         body: JSON.stringify(data)
-      }).then(this.responseToJSON)
+      })
+    .then(this.responseToJSON)
   }
 
   destroy = (url, id) => {
     return fetch(`${url}/${id}`, {
       method: "DELETE",
       headers: this.headers()
-    }).then(this.responseToJSON)
+    })
+    .then(this.responseToJSON)
   }
 }
-const API = new Api()
+
+const API = Api.init()
 
 export default API
