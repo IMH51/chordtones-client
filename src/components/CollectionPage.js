@@ -5,15 +5,11 @@ import Navbar from './Navbar'
 import Fretboard from './Fretboard'
 
 class CollectionPage extends Component {
-  constructor() {
-    super()
-
-    this.state = {
+  
+  state = {
       collection: [],
       selectedChord: null
     }
-
-  }
 
   getUserChords = () => {
     return fetch('https://chordtones-backend.herokuapp.com/user/chords', {
@@ -21,21 +17,21 @@ class CollectionPage extends Component {
                     'Authorization': localStorage.getItem('token')},
       })
       .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          alert(data.error)
+      .then(collection => {
+        if (collection.error) {
+          alert(collection.error)
         } else {
-        this.setState({...this.state, collection: data})
+        this.setState({ collection })
         }
       })
   }
 
-  onChangeChord = (index) => {
-    this.setState({...this.state, selectedChord: this.state.collection[index]})
+  onChangeChord = i => {
+    this.setState({selectedChord: this.state.collection[i]})
   }
 
-  handleChordDelete = (chord_id) => {
-    return fetch(`https://chordtones-backend.herokuapp.com/chords/${chord_id}`, {
+  handleChordDelete = id => {
+    return fetch(`https://chordtones-backend.herokuapp.com/chords/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -43,12 +39,12 @@ class CollectionPage extends Component {
         }
       })
       .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          alert(data.error)
+      .then(collection => {
+        if (collection.error) {
+          alert(collection.error)
         } else {
         alert("Chord successfully deleted from your Collection!")
-        this.setState({selectedChord: null, collection: [...data]})
+        this.setState({selectedChord: null, collection })
         }
       })
   }
@@ -62,19 +58,23 @@ class CollectionPage extends Component {
   }
 
   render() {
+    const { collection, selectedChord } = this.state
+    const { username, logout, clearFretboard, strings, frets} = this.props
+    const {onChangeChord, handleChordDelete} = this
+    const onClickDelete = () => handleChordDelete(selectedChord.id)
     return (
       <div className="collectionpage-container">
-        <Navbar username={this.props.username} logout={this.props.logout} clearFretboard={this.props.clearFretboard} page={'search'}/>
+        <Navbar page='search' {...{username, logout, clearFretboard}} />
         <div className="collection-page-wrapper">
         <div className="collection_wrapper">
           <p className="instruction-text">To view a chord from your collection, select it from the dropdown menu</p>
-          <select name="chord-select" className="chord-select" onChange={(event) => this.onChangeChord(event.target.value)}>
+          <select name="chord-select" className="chord-select" onChange={e => onChangeChord(e.target.value)}>
           <option>Select A Chord</option>
-          {this.state.collection.map(chord => <option key={chord.id} value={this.state.collection.indexOf(chord)}>{chord.chord_name.trim()}</option>)}
+          {collection.map((chord, i) => <option key={chord.id} value={i}>{chord.chord_name.trim()}</option>)}
         </select>
-        <Fretboard strings={this.props.strings} frets={this.props.frets} collection={this.state.collection} chord={this.state.selectedChord} query={this.state.selectedChord}/>
+        <Fretboard {...{strings, frets, collection}} chord={selectedChord} query={selectedChord}/>
         <div className="delete-button-container">
-        {this.state.selectedChord ? <button className="get-chord-button" onClick={() => this.handleChordDelete(this.state.selectedChord.id)}>Delete Chord from Collection</button>: null}
+        {selectedChord && <button className="get-chord-button" onClick={onClickDelete}>Delete Chord from Collection</button>}
         </div>
         </div>
         </div>
