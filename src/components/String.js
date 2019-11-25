@@ -1,28 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Fret from './Fret'
 import './String.css'
 import './Fret.css'
 
-class String extends Component {
-  render() {
-    return (
-      <div className="string-container">
-        {this.props.frets.map(fret => {
-          const buttonClass = this.props.stringValue.toString() === fret.toString() ? 'fret-button-black' : 'fret-button-white';
-          const finger = this.props.chord && buttonClass === 'fret-button-black' ? this.props.chord[`finger_${this.props.string.slice(-1)}`] : "";
-          return <Fret
-            key={"fret-" + fret}
-            string={this.props.string}
-            fret={fret}
-            changeFretNumber = {this.props.changeFretNumber}
-            buttonClass={buttonClass}
-            finger={finger}
-            stringValue={this.props.stringValue}
-          />
-        })}
-      </div>
-    )
-  }
-}
+const String = ({ frets, string, stringValue, chord, changeFretNumber }) => (
+    <div className="string-container">
+    {frets.map(fret => {
+      const buttonClass = stringValue.toString() === fret.toString() ? 'fret-button-black' : 'fret-button-white';
+      const finger = (chord && buttonClass === 'fret-button-black') && chord[`finger_${string.slice(-1)}`]
+      const key = `fret-${fret}`
+      return <Fret {...{key, string, fret, changeFretNumber, buttonClass, finger, stringValue}} />
+    })}
+  </div>
+)
+
 
 export default String;
