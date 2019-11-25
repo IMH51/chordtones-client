@@ -1,23 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import String from './String'
 import './Fretboard.css'
 
-class Fretboard extends Component {
-
-  markers = [3,5,7,9,12,15,17,19,21,24]
-
-  render() {
-    return (
-      <div className="fretboard-element-container">
+const Fretboard = ({ strings, frets, chord, query, changeFretNumber }) => {
+  const markers = [3,5,7,9,12,15,17,19,21,24]
+  return (
+    <div className="fretboard-element-container">
       <div className="fretboard-container">
-          {this.props.strings.map(string => < String key={"string_" + string} string={"string_" + string} frets={this.props.frets} stringValue={this.props.query ? this.props.query["string_" + string] : "X"} chord={this.props.chord} changeFretNumber={this.props.changeFretNumber}/>)}
+        {strings.map(string => {
+          const stringName = `string_${string}`
+          const stringValue = query ? query[stringName] : "X"
+          return < String key={stringName} string={stringName} {...{frets, stringValue, chord, changeFretNumber}}/>
+        })}
       </div>
       <div className="fretboard-number-labels">
-        {this.props.frets.map(fret => <p key={"fret-marker-" + fret} className={this.markers.includes(fret) ? "marker-label" : "non-marker-label"}>{this.markers.includes(fret) ? fret : " "}</p>)}
+        {frets.map(fret => {
+          const fretClass = `${markers.includes(fret) && "non-"}marker-label`
+          const markerText = markers.includes(fret) ? fret : " "
+          return <p key={"fret-marker-" + fret} className={fretClass}>{markerText}</p>
+        })}
       </div>
-      </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default Fretboard;
