@@ -8,29 +8,23 @@ const initialState = {
 
 class HomePage extends Component {
 
-  constructor(){
-    super()
+  state = initialState
 
-    this.state = initialState
-  }
+  handleChange = e => this.setState({ [e.target.name]: e.target.value })
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
-
-  onClickLogin = event => {
-  event.preventDefault()
+  onClickLogin = e => {
+  e.preventDefault()
   fetch('https://chordtones-backend.herokuapp.com/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': localStorage.getItem('token')
       },
-      body: JSON.stringify({...this.state})
+      body: JSON.stringify(this.state)
     }).then(resp => resp.json())
       .then(data => {
         if (data.error) {
-          this.setState(this.initialState)
+          this.setState(initialState)
           alert(data.error)
         } else {
           this.props.login(this.state.username, data.token)
@@ -50,11 +44,11 @@ class HomePage extends Component {
         'Content-Type': 'application/json',
         'Authorization': localStorage.getItem('token')
       },
-      body: JSON.stringify({...this.state})
+      body: JSON.stringify(this.state)
     }).then(resp => resp.json())
       .then(data => {
           if (data.error) {
-            this.setState(this.initialState)
+            this.setState(initialState)
             alert(data.error)
           } else {
             this.props.login(this.state.username, data.token)
@@ -64,8 +58,9 @@ class HomePage extends Component {
     }
   }
 
-
   render() {
+  const { username, password } = this.state
+  const { handleChange, onClickLogin, onClickSignup } = this
   return (
         <div className='homepage-container'>
           <div className="content-container">
@@ -84,12 +79,12 @@ class HomePage extends Component {
           <div className='homepage-form'>
           <form>
             <div className="homepage-form-inputs">
-            <input onChange={this.handleChange} type="text" placeholder='Username' name="username" value={this.state.username} />
-            <input onChange={this.handleChange} type="password" placeholder='Password' name="password" value={this.state.password} />
+            <input onChange={handleChange} type="text" placeholder='Username' name="username" value={username} />
+            <input onChange={handleChange} type="password" placeholder='Password' name="password" value={password} />
             </div>
             <div className="homepage-form-buttons">
-            <button onClick={this.onClickLogin}>Login</button>
-            <button onClick={this.onClickSignup}>Sign Up</button>
+            <button onClick={onClickLogin}>Login</button>
+            <button onClick={onClickSignup}>Sign Up</button>
             </div>
           </form>
           </div>
