@@ -5,7 +5,11 @@ import Navbar from './Navbar'
 import './SearchPage.css'
 
 const SearchPage = ({ username, logout, clearFretboard, chord, query, changeFretNumber, getChordName, history }) => {
-  useEffect(() => !username && history.push('/'), [])
+  
+  useEffect(() => {
+    !username && history.push('/')
+  }, [])
+
   return (
     <div className="searchpage-container">
       <Navbar page="Collection" {...{ username, logout, clearFretboard, }}/>
