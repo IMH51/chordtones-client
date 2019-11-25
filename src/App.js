@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import SearchPage from './components/SearchPage'
 import CollectionPage from './components/CollectionPage'
 import HomePage from './components/HomePage'
+import API from './helpers/API'
 
 const initialState = {
   username: '',
@@ -21,9 +22,6 @@ const initialState = {
 class App extends Component {
 
   state = initialState
-
-  strings = [1,2,3,4,5,6]
-  frets = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 
   login = (username, token) => {
     this.setState({ username })
@@ -46,36 +44,28 @@ class App extends Component {
 }
 
   getChordName = () => {
-    fetch('https://chordtones-backend.herokuapp.com/chord', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": localStorage.getItem('token')
-         },
-         body: JSON.stringify(this.state.query)
-      })
-      .then(response => response.json())
-      .then(chord => {
-        if (chord.error) {
-          alert(chord.error)
-        } else {
-        this.setState({ chord })
-        }
-      })
+    API.post(API.newChordUrl, this.state.query)
+    .then(chord => {
+      if (chord.error) {
+        alert(chord.error)
+      } else {
+      this.setState({ chord })
+      }
+    })
   }
 
   render() {
     const { username, query, chord } = this.state
-    const { strings, frets, login, logout, changeFretNumber, clearFretboard, getChordName } = this
+    const { login, logout, changeFretNumber, clearFretboard, getChordName } = this
     return (
       <Router>
         <Switch>
           <Route path='/' 
                  component={props => <HomePage {...{...props, login}} />} exact/>
           <Route path='/search' 
-                 component={props => <SearchPage page="collection" {...{...props, username, logout, strings, frets, query, chord, clearFretboard, changeFretNumber, getChordName }}/>} />
+                 component={props => <SearchPage page="collection" {...{...props, username, logout, query, chord, clearFretboard, changeFretNumber, getChordName }}/>} />
           <Route path='/collection' 
-                 component={props => <CollectionPage {...{...props, username, logout, clearFretboard, strings, frets}} />} />
+                 component={props => <CollectionPage {...{...props, username, logout, clearFretboard}} />} />
         </Switch>
       </Router>
     )
