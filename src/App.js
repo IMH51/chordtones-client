@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import SearchPage from './components/SearchPage'
 import CollectionPage from './components/CollectionPage'
@@ -21,30 +20,25 @@ const initialState = {
 
 class App extends Component {
 
-  constructor() {
-    super()
+  state = initialState
 
-    this.state = initialState
-
-    this.strings = [1,2,3,4,5,6]
-    this.frets = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-
-  }
+  strings = [1,2,3,4,5,6]
+  frets = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 
   login = (username, token) => {
-    this.setState({...initialState, username: username })
+    this.setState({ username })
     localStorage.setItem('token', token)
   }
 
   logout = () => {
-    this.setState({...initialState})
+    this.setState(initialState)
     localStorage.removeItem('token')
   }
 
   changeFretNumber = (string, fret) => {
-    const newQuery = JSON.parse(JSON.stringify(this.state.query))
+    const newQuery = {...this.state.query}
     newQuery[string] === fret ? newQuery[string] = "X" : newQuery[string] = fret
-    this.setState({...this.state, chord: null, query: newQuery})
+    this.setState({chord: null, query: newQuery})
   }
 
   clearFretboard = () => {
@@ -58,25 +52,30 @@ class App extends Component {
           "Content-Type": "application/json",
           "Authorization": localStorage.getItem('token')
          },
-         body: JSON.stringify({...this.state.query})
+         body: JSON.stringify(this.state.query)
       })
       .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          alert(data.error)
+      .then(chord => {
+        if (chord.error) {
+          alert(chord.error)
         } else {
-        this.setState({...this.state, chord: data})
+        this.setState({ chord })
         }
       })
   }
 
   render() {
+    const { username, query, chord } = this.state
+    const { strings, frets, login, logout, changeFretNumber, clearFretboard, getChordName } = this
     return (
       <Router>
         <Switch>
-          <Route path='/' component={props => <HomePage {...props} login={this.login}/>} exact/>
-          <Route path='/search' component={props => <SearchPage {...props} username={this.state.username} logout={this.logout} strings={this.strings} frets={this.frets} query={this.state.query} chord={this.state.chord} clearFretboard={this.clearFretboard} changeFretNumber={this.changeFretNumber} getChordName={this.getChordName} page={"collection"}/>} />
-          <Route path='/collection' component={props => <CollectionPage {...props} username={this.state.username} logout={this.logout} clearFretboard={this.clearFretboard} strings={this.strings} frets={this.frets}/>} />
+          <Route path='/' 
+                 component={props => <HomePage {...{...props, login}} />} exact/>
+          <Route path='/search' 
+                 component={props => <SearchPage page="collection" {...{...props, username, logout, strings, frets, query, chord, clearFretboard, changeFretNumber, getChordName }}/>} />
+          <Route path='/collection' 
+                 component={props => <CollectionPage {...{...props, username, logout, clearFretboard, strings, frets}} />} />
         </Switch>
       </Router>
     )
