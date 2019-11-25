@@ -1,9 +1,9 @@
 import React from 'react';
 import String from './String'
 import './Fretboard.css'
+import { strings, frets, markers } from "../helpers/guitarData"
 
-const Fretboard = ({ strings, frets, chord, query, changeFretNumber }) => {
-  const markers = [3,5,7,9,12,15,17,19,21,24]
+const Fretboard = ({ chord, query, changeFretNumber }) => {
   return (
     <div className="fretboard-element-container">
       <div className="fretboard-container">
