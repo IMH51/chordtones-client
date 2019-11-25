@@ -41,6 +41,6 @@ class Api {
   }
 }
 
-const API = Api.init()
+const API = new Api()
 
 export default API
