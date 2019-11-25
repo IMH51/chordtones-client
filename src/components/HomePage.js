@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './HomePage.css'
+import API from '../helpers/API'
 
 const initialState = {
   username: '',
@@ -13,15 +14,8 @@ class HomePage extends Component {
   handleChange = e => this.setState({ [e.target.name]: e.target.value })
 
   onClickLogin = e => {
-  e.preventDefault()
-  fetch('https://chordtones-backend.herokuapp.com/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('token')
-      },
-      body: JSON.stringify(this.state)
-    }).then(resp => resp.json())
+    e.preventDefault()
+    API.post(API.loginUrl, this.state)
       .then(data => {
         if (data.error) {
           this.setState(initialState)
@@ -38,14 +32,7 @@ class HomePage extends Component {
     if (!this.state.username || !this.state.password) {
       alert('Username and Password fields must both be filled in.')
     } else {
-      fetch('https://chordtones-backend.herokuapp.com/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('token')
-      },
-      body: JSON.stringify(this.state)
-    }).then(resp => resp.json())
+      API.post(API.signupUrl, this.state)
       .then(data => {
           if (data.error) {
             this.setState(initialState)
