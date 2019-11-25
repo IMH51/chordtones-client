@@ -3,6 +3,7 @@ import './CollectionPage.css'
 
 import Navbar from './Navbar'
 import Fretboard from './Fretboard'
+import API from '../helpers/API';
 
 class CollectionPage extends Component {
   
@@ -12,18 +13,14 @@ class CollectionPage extends Component {
     }
 
   getUserChords = () => {
-    return fetch('https://chordtones-backend.herokuapp.com/user/chords', {
-        headers: { 'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem('token')},
-      })
-      .then(response => response.json())
-      .then(collection => {
+   API.get(API.userChordsUrl)
+    .then(collection => {
         if (collection.error) {
           alert(collection.error)
         } else {
         this.setState({ collection })
-        }
-      })
+      }
+    })
   }
 
   onChangeChord = i => {
@@ -31,20 +28,13 @@ class CollectionPage extends Component {
   }
 
   handleChordDelete = id => {
-    return fetch(`https://chordtones-backend.herokuapp.com/chords/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('token')
-        }
-      })
-      .then(response => response.json())
+    API.destroy(API.chordsUrl, id)
       .then(collection => {
         if (collection.error) {
           alert(collection.error)
         } else {
-        alert("Chord successfully deleted from your Collection!")
-        this.setState({selectedChord: null, collection })
+          alert("Chord successfully deleted from your Collection!")
+          this.setState({selectedChord: null, collection })
         }
       })
   }
@@ -59,12 +49,12 @@ class CollectionPage extends Component {
 
   render() {
     const { collection, selectedChord } = this.state
-    const { username, logout, clearFretboard, strings, frets} = this.props
+    const { username, logout, clearFretboard} = this.props
     const {onChangeChord, handleChordDelete} = this
     const onClickDelete = () => handleChordDelete(selectedChord.id)
     return (
       <div className="collectionpage-container">
-        <Navbar page='search' {...{username, logout, clearFretboard}} />
+        <Navbar page='Search' {...{username, logout, clearFretboard}} />
         <div className="collection-page-wrapper">
         <div className="collection_wrapper">
           <p className="instruction-text">To view a chord from your collection, select it from the dropdown menu</p>
@@ -72,7 +62,7 @@ class CollectionPage extends Component {
           <option>Select A Chord</option>
           {collection.map((chord, i) => <option key={chord.id} value={i}>{chord.chord_name.trim()}</option>)}
         </select>
-        <Fretboard {...{strings, frets, collection}} chord={selectedChord} query={selectedChord}/>
+        <Fretboard {...{collection}} chord={selectedChord} query={selectedChord}/>
         <div className="delete-button-container">
         {selectedChord && <button className="get-chord-button" onClick={onClickDelete}>Delete Chord from Collection</button>}
         </div>
